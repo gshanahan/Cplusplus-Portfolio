@@ -1,4 +1,4 @@
-# Cplusplus-Projects
+# Cplusplus-Portfolio
 
 These Programs are all projects/labs/assignments that I have completed in my CSC 1300 Intro to Computer Programming class.
 They are all terminal applications unless otherwise specified.
