@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reliable Vehicles - Employees</title>
+    <link href="css/lib/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <table class="table" id="tblEmployees">
+        <thead>
+            <tr><th>First Name</th><th>Last Name</th><th>Hourly Wage</th><th>Hours Worked</th><th>Total Pay</th><th></th></tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+    <script src="js/lib/jquery-3.6.1.min.js"></script>
+    <script src="js/lib/bootstrap.bundle.min.js"></script>
+    <script>
+        $.getJSON('https://www.swollenhippo.com/ReliableVehicles/employees.php?APIKey=Mickey2022!',(arrEmployees) => {
+            $(document).on('click','.btnEditEmployee',function(){
+                let strFirstName = $(this).attr('data-firstname');
+                console.log('Clicked Employee Edit for ' + strFirstName);
+            })
+            arrEmployees.forEach(function(objEmployee){
+                let strTableRow = '<tr><td>' + objEmployee.FirstName + '</td><td>' + objEmployee.LastName + '</td><td>' + objEmployee.HourlyRate + '</td><td>' + objEmployee.WeeklyHrs + '</td><td>' + (objEmployee.HourlyRate * objEmployee.WeeklyHrs) + '</td><td><button class="btn btn-primary btnEditEmployee" type="button" data-firstname="' + objEmployee.FirstName + '"></button></td></td>';
+                $('#tblEmployees tbody').append(strTableRow);
+                    console.log(objEmployee);
+            })
+        })
+    </script>
+</body>
+</html>
