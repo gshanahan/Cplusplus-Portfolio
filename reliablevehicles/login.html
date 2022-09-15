@@ -8,9 +8,10 @@
     <link href="css/lib/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-primary vh-100">
-    <div class="card col-6 offset-3 mt-5">
+    <button class="btn btn-warning col-12 mt-3" type="button" id="btnLogOut">Log Out</button>
+    <div class="card col-6 offset-3 mt-5" id="divLogin">
         <div class="card-header">
-            <h3>Creat New Account</h3>
+            <h3>Login</h3>
         </div>
         <div class="card-body">
             <form>
@@ -20,31 +21,49 @@
                 </div>
 
                 <div class="">
-                    <input class="form-control" id="txtFirstName" type="text" aria-label="First Name" placeholder="First Name" required>
-                    <div class="invalid-feedback">You Must Enter Your First Name</div>
-                </div>
-
-                <div class="">
-                    <input class="form-control" id="txtLastName" type="text" aria-label="Last Name" placeholder="Last Name" required>
-                    <div class="invalid-feedback">You Must Enter Your Last Name</div>
-                </div>
-
-                <div class="">
                     <input class="form-control" id="txtPassword" type="password" aria-label="Enter Password" placeholder="Password" required>
                     <div class="invalid-feedback">You Must Enter A Password</div>
                 </div>
-                <button class="btn btn-primary" id="btnCreate" type="button">Create User</button>
+                <button class="btn btn-primary" id="btnLogin" type="button">Login</button>
             </form>
+        </div>
+    </div>
+    <div class="card col-6 offset-3 mt-5" id="divInventory">
+        <div class="card-header">
+            <h3>Inventory</h3>
+        </div>
+        <div class="card-body">
+            <form class="col-12">
+                <input id="txtInventoryMake" placeholder="Make of Vehicle" aria-label="Enter Make of Vehicle">
+                <button class="btn btn-primary col-12" type="button" id="btnInventorySearch">Search</button>
+            </form>>
         </div>
     </div>
     <script src="js/lib/bootstrap.bundle.min.js"></script>
     <script src="js/lib/jquery-3.6.1.min.js"></script>
     <script src="js/lib/sweetalert2.js"></script>
     <script>
-        $('#btnCreate').on('click', function(){
+        if(sessionStorage.getItem('SessionID')){
+            $('#divLogin').slideDown();
+            $('#divInventory').slideUp(); 
+        }
+
+        $('#btnLogOut').on('click', function(){
+            sessionStorage.removeItem('SessionID');
+            $('#divLogin').slideDown();
+            $('#divInventory').slideUp();     
+        })
+
+        $('#btnInventorySearch').on('click', function(){
+            const strSessionID = sessionStorage.getItem('SessionID');
+                    let strMake = $('#txtInventoryMake').val()
+                    $.getJSON('https://www.swollenhippo.com/ReliableVehicles/api/inventory.php',{session:strSessionID,make:strMake}).done(function(result){
+                    console.log(result);
+                })
+        })
+
+        $('#btnLogin').on('click', function(){
             let strEmail = $('#txtEmail').val();
-            let strFirstName = $('#txtFirstName').val();
-            let strLastName = $('#txtLastName').val();
             let strPassword = $('#txtPassword').val();
             let blnError = false;
             let strErrorMessage = '';
@@ -62,16 +81,6 @@
                 strErrorMessage += '<p>Invalid Email Address</p>';
                 $('txtEmail').addclass('is-invalid');
             }
-            if(!strFirstName){
-                blnError = true;
-                strErrorMessage += '<p>First Name cannot be blank</p>';
-                $('txtFirstName').addclass('is-invalid');
-            }
-            if(!strLastName){
-                blnError = true;
-                strErrorMessage += '<p>Last Name cannot be blank</p>';
-                $('txtLastName').addclass('is-invalid');
-            }
             if(!strPassword){
                 blnError = true;
                 strErrorMessage += '<p>Password cannot be blank</p>';
@@ -79,31 +88,27 @@
             }
 
             if(!blnError){
-                $.post('https://www.swollenhippo.com/ReliableVehicles/api/users.php',{email:strEmail,firstName:strFirstName,lastName:strLastName,password:strPassword}).done(function(result){
+                $.post('https://www.swollenhippo.com/ReliableVehicles/api/sessions.php',{email:strEmail,password:strPassword}).done(function(result){
                     console.log(result);
                     const obj = JSON.parse(result);
-                    if(obj.Outcome === 'New User Created'){
-                        Swal.fire({
-                        title: 'Success!',
-                        html: 'New User Created'
-                        })
+                    console.log(obj);
+                    if(obj.SessionID){
+                        $('txtEmail').val('');
+                        $('txtPassword').val('');
+                        sessionStorage.setItem("SessionID",obj.SessionID);
+                        $('#divInventory').slideDown();
+                        $('#divLogin').slideUp();
                     }
-                    else if(obj.Error === 'User Not Created'){
+                    else {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error Creating New User',
-                            html: 'User Already Exists'
+                            title: 'Error Logging In',
+                            html: 'Looks like your username or password were incorrect'
                         })
                     }
+                    
                 })
             }
-            else{
-                Swal.fire({
-                icon: 'error',
-                title: 'Error Creating New User',
-                html: strErrorMessage
-                })
-            } 
         })
     </script>
 </body>
