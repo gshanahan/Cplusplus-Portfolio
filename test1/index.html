@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimpleFarm</title>
+    <!-- Add your CSS references here, remember last one in rules-->
+    <link href="css/lib/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="vh-100">
+    <div class="">
+        <div id="divCreateUser" style="display:none;" class="col-12 row">
+            <div class="d-none d-md-block col-6  d-flex justify-content-center align-items-center vh-100 bg-white">
+                <h2 class="text-primary text-center mt-5">Let's Get Registered</h2>
+                <div style="display:flex; justify-content: center; align-items: center;">
+                    <img src="images/hippo.png" alt="Hippo Logo" class="p-5">
+                </div>
+            </div>
+            <div class="col-12 col-md-6 d-flex justify-content-center align-items-center vh-100">
+                <div class="card col-12 col-md-10 offset-md-1">
+                    <div class="card-head">
+                        <h3 class="col-12 text-center mt-1">Create Account</h3>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="txtCreateFirstName" class="form-label mt-4">First Name</label>
+                                <input class="form-control" id="txtCreateFirstName" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="txtCreateLastName" class="form-label mt-4">Last Name</label>
+                                <input class="form-control" id="txtCreateLastName" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="txtCreateEmail" class="form-label mt-4">Email</label>
+                                <input class="form-control" id="txtCreateEmail" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="txtCreateClass" class="form-label mt-4">Class</label>
+                                <input class="form-control" id="txtCreateClass" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="txtCreatePassword" class="form-label mt-4">Password</label>
+                                <input class="form-control" id="txtCreatePassword" placeholder="">
+                            </div>
+                            <button class="btn btn-primary col-12 mt-4" type="button" id="btnRegister">Register Account</button>
+                            <button class="btn btn-secondary col-12 mt-2 btnSwap" type="button">Back To Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="divLogin" class="col-12 row">
+            <div class="col-12 col-md-6 d-flex justify-content-center align-items-center vh-100">
+                <div class="card col-12 col-md-10 offset-md-1">
+                    <div class="card-head">
+                        <h3 class="col-12 text-center mt-1">Login</h3>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <input id="txtLoginEmail" class="form-control">
+                            <input id="txtLoginPassword" class="form-control mt-2">
+                            <button class="btn btn-primary col-12 mt-4" type="button" id="btnLogin">Login</button>
+                            <button class="btn btn-secondary col-12 mt-2 btnSwap" type="button">Create Account</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="d-none d-md-block col-6  d-flex justify-content-center align-items-center vh-100 bg-white">
+                <h2 class="text-primary text-center mt-5">Farmer Hippo Welcomes You</h2>
+                <div style="display:flex; justify-content: center; align-items: center;">
+                    <img src="images/hippo.png" alt="Hippo Logo" class="p-5">
+                </div>
+
+            </div>
+        </div>
+        <div id="divAnimalDashboard" style="display:none;" class="col-12">
+            <div class="col-12 d-flex justify-content-center align-items-center vh-100">
+                <div class="card col-12 col-md-10 offset-md-1">
+                    <div class="card-head">
+                        <div class="d-flex col-12 justify-content-between">
+                            <h3>Animal Finder</h3>
+                            <button id="" class="btn btn-danger" id="btnLogout">Logout</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="selectAnimal" class="form-label mt-4">Animal Type</label>
+                                <select class="form-control" id="selectAnimal">
+                                </select>
+                            </div>
+                            <button class="btn btn-primary mt-2" id="btnSearch">Find</button>
+                        </form>
+                        <hr>
+                        <table id="tblAnimals" class="table mt-5">
+                            <thead>
+                                <tr><th>Animal ID</th><th>Name</th><th>Type</th></tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add the references to your javascript files here.  Remember that these run from TOP to BOTTOM.-->
+    <script src="js/lib/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script src="js/lib/sweetalert2.js"></script>
+    <script>
+        // REMEMBER, Javascript runs TOP to BOTTOM, the first thing within this <script> tag will run on initial load to the page
+        $('.btnSwap').on('click',function(){
+            // Use this click handler to toggle the view of the user registration and login <div> elements
+        })
+
+        $('#btnRegister').on('click',function(){
+            // Use this click handler to a new user in the application
+        })
+
+        $('#btnLogin').on('click',function(){
+            // Use this click handler to log a user into the application
+        })
+
+        $('#btnLogout').on('click',function(){
+            // Use this click handler to log a user out from the application
+            let strSessionID = ; // set the value of this variable to the value of your SimpleSession that you have stored
+            $.ajax({
+                type: "ENTER_YOUR_APPROPRIATE_HTTP_METHOD_HERE",
+                contentType:"applicaiton/json; charset=utf-8",
+                url: "https://simplefarm.thesimplehomestead.com/api/sessions.php",
+                data: { SessionID:strSession },
+                success:function(result){
+                    // Complete your logout
+                },
+                error: function(resultError){
+                    // Handle any errors here
+                }
+            })
+        })
+
+        $('#btnSearch').on('click',function(){
+            let blnError = false;
+            let strErrorMessage = '';
+            let strAnimalType; // Use this variable to set the value of your animal type based on the logic provided in the instructions
+            // Validate input here
+
+            if(blnError == false){
+                let strSessionID = ; // set the value of this variable to the value of your SimpleSession that you have stored
+                $.getJSON('https://simplefarm.thesimplehomestead.com/api/animals.php',{SessionID:strSessionID,AnimalType:strAnimalType},function(animals){
+                    // Clear the tbody
+
+                    // Iterate across your returned array and build the rows for the table;  add the rows to the table
+                })
+            } else {
+                Swal.fire({
+                    type:'error',
+                    html:strErrorMessage
+                })
+            }
+            
+
+        })
+
+        
+    </script>
+</body>
+</html>
