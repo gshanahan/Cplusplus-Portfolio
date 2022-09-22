@@ -26,23 +26,23 @@
                         <form>
                             <div class="form-group">
                                 <label for="txtCreateFirstName" class="form-label mt-4">First Name</label>
-                                <input class="form-control" id="txtCreateFirstName" placeholder="">
+                                <input class="form-control" type="text" id="txtCreateFirstName" placeholder="First Name" required>
                             </div>
                             <div class="form-group">
                                 <label for="txtCreateLastName" class="form-label mt-4">Last Name</label>
-                                <input class="form-control" id="txtCreateLastName" placeholder="">
+                                <input class="form-control" type="text" id="txtCreateLastName" placeholder="Last Name" required>
                             </div>
                             <div class="form-group">
                                 <label for="txtCreateEmail" class="form-label mt-4">Email</label>
-                                <input class="form-control" id="txtCreateEmail" placeholder="">
+                                <input class="form-control" type="email" id="txtCreateEmail" placeholder="Email Address" required>
                             </div>
                             <div class="form-group">
                                 <label for="txtCreateClass" class="form-label mt-4">Class</label>
-                                <input class="form-control" id="txtCreateClass" placeholder="">
+                                <input class="form-control" id="txtCreateClass" placeholder="Class" required>
                             </div>
                             <div class="form-group">
                                 <label for="txtCreatePassword" class="form-label mt-4">Password</label>
-                                <input class="form-control" id="txtCreatePassword" placeholder="">
+                                <input class="form-control" type="password" id="txtCreatePassword" placeholder="Password" required>
                             </div>
                             <button class="btn btn-primary col-12 mt-4" type="button" id="btnRegister">Register Account</button>
                             <button class="btn btn-secondary col-12 mt-2 btnSwap" type="button">Back To Login</button>
@@ -119,6 +119,73 @@
 
         $('#btnRegister').on('click',function(){
             // Use this click handler to a new user in the application
+            let strEmail = $('#txtCreateEmail').val();
+            let strFirstName = $('#txtCreateFirstName').val();
+            let strLastName = $('#txtCreateLastName').val();
+            let strClass = $('#txtCreateClass').val();
+            let strPassword = $('#txtCreatePassword').val();
+            let blnError = false;
+            let strErrorMessage = '';
+            let frmNewUser = document.querySelector('form')
+            frmNewUser.reportValidity();
+
+            if(!strEmail){
+                blnError = true;
+                strErrorMessage += '<p>Email cannot be blank</p>';
+                $('txtCreateEmail').addclass('is-invalid');
+            }
+            else if(!frmNewUser.reportValidity()) {
+                blnError = true;
+                strErrorMessage += '<p>Invalid Email Address</p>';
+                $('txtCreateEmail').addclass('is-invalid');
+            }
+            if(!strFirstName){
+                blnError = true;
+                strErrorMessage += '<p>First Name cannot be blank</p>';
+                $('txtCreateFirstName').addclass('is-invalid');
+            }
+            if(!strLastName){
+                blnError = true;
+                strErrorMessage += '<p>Last Name cannot be blank</p>';
+                $('txtCreateLastName').addclass('is-invalid');
+            }
+            if(!strClass){
+                blnError = true;
+                strErrorMessage += '<p>Class cannot be blank</p>';
+                $('txtCreateClass').addclass('is-invalid');
+            }
+            if(!strPassword){
+                blnError = true;
+                strErrorMessage += '<p>Password cannot be blank</p>';
+                $('txtCreatePassword').addclass('is-invalid');
+            }
+
+            if(!blnError){
+                $.post('https://simplefarm.thesimplehomestead.com/api/users.php',{firstName:strFirstName,lastName:strLastName,email:strEmail,class:strClass,password:strPassword}).done(function(result){
+                    console.log(result);
+                    const obj = JSON.parse(result);
+                    if(obj.Outcome === 'New User Created'){
+                        Swal.fire({
+                        title: 'Success!',
+                        html: 'New User Created'
+                        })
+                    }
+                    else if(obj.Error === 'User Not Created'){
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error Creating New User',
+                            html: 'User Already Exists'
+                        })
+                    }
+                })
+            }
+            else{
+                Swal.fire({
+                icon: 'error',
+                title: 'Error Creating New User',
+                html: strErrorMessage
+                })
+            }
         })
 
         $('#btnLogin').on('click',function(){
