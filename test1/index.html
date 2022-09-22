@@ -116,9 +116,9 @@
         $('.btnSwap').on('click',function(){
             // Use this click handler to toggle the view of the user registration and login <div> elements
             $('#divCreateUser').slideUp(); 
-            $('##divCreateUser').addclass(style='display:none;');
+            $('#divCreateUser').addClass(style='display:none;');
             $('#divLogin').slideDown();
-            $('#divLogin').removeClass(style);
+            $('#divLogin').addClass(style='');
         })
 
         $('#btnRegister').on('click',function(){
@@ -136,37 +136,37 @@
             if(!strEmail){
                 blnError = true;
                 strErrorMessage += '<p>Email cannot be blank</p>';
-                $('txtCreateEmail').addclass('is-invalid');
+                $('txtCreateEmail').addClass('is-invalid');
             }
             else if(!frmNewUser.reportValidity()) {
                 blnError = true;
                 strErrorMessage += '<p>Invalid Email Address</p>';
-                $('txtCreateEmail').addclass('is-invalid');
+                $('txtCreateEmail').addClass('is-invalid');
             }
             if(!strFirstName){
                 blnError = true;
                 strErrorMessage += '<p>First Name cannot be blank</p>';
-                $('txtCreateFirstName').addclass('is-invalid');
+                $('txtCreateFirstName').addClass('is-invalid');
             }
             if(!strLastName){
                 blnError = true;
                 strErrorMessage += '<p>Last Name cannot be blank</p>';
-                $('txtCreateLastName').addclass('is-invalid');
+                $('txtCreateLastName').addClass('is-invalid');
             }
             if(!strClass){
                 blnError = true;
                 strErrorMessage += '<p>Class cannot be blank</p>';
-                $('txtCreateClass').addclass('is-invalid');
+                $('txtCreateClass').addClass('is-invalid');
             }
             else if(strClass != 'CSC3100'){
                 blnError = true;
                 strErrorMessage += '<p>Class must be CSC3100</p>';
-                $('txtCreateClass').addclass('is-invalid');
+                $('txtCreateClass').addClass('is-invalid');
             }
             if(!strPassword){
                 blnError = true;
                 strErrorMessage += '<p>Password cannot be blank</p>';
-                $('txtCreatePassword').addclass('is-invalid');
+                $('txtCreatePassword').addClass('is-invalid');
             }
 
             if(!blnError){
@@ -214,17 +214,17 @@
             if(!strEmail){
                 blnError = true;
                 strErrorMessage += '<p>Email cannot be blank</p>';
-                $('txtLoginEmail').addclass('is-invalid');
+                $('txtLoginEmail').addClass('is-invalid');
             }
             else if(!frmNewUser.reportValidity()) {
                 blnError = true;
                 strErrorMessage += '<p>Invalid Email Address</p>';
-                $('txtLoginEmail').addclass('is-invalid');
+                $('txtLoginEmail').addClass('is-invalid');
             }
             if(!strPassword){
                 blnError = true;
                 strErrorMessage += '<p>Password cannot be blank</p>';
-                $('txtLoginPassword').addclass('is-invalid');
+                $('txtLoginPassword').addClass('is-invalid');
             }
 
             if(!blnError){
@@ -255,12 +255,15 @@
             // Use this click handler to log a user out from the application
             let strSessionID = sessionStorage.getItem('SimpleSession'); // set the value of this variable to the value of your SimpleSession that you have stored
             $.ajax({
-                type: "ENTER_YOUR_APPROPRIATE_HTTP_METHOD_HERE",
+                type: "DELETE",
                 contentType:"application/json; charset=utf-8",
                 url: "https://simplefarm.thesimplehomestead.com/api/sessions.php",
                 data: { SessionID:strSession },
                 success:function(result){
                     // Complete your logout
+                    sessionStorage.removeItem('SimpleSession');
+                    $('#divLogin').slideDown();
+                    $('#divAnimalDashboard').slideUp();  
                 },
                 error: function(resultError){
                     // Handle any errors here
