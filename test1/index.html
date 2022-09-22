@@ -115,10 +115,10 @@
         // REMEMBER, Javascript runs TOP to BOTTOM, the first thing within this <script> tag will run on initial load to the page
         $('.btnSwap').on('click',function(){
             // Use this click handler to toggle the view of the user registration and login <div> elements
-            $('#divLogin').slideUp();
-            $('#divLogin').removeClass(style);
-            $('#divCreateUser').slideDown(); 
+            $('#divCreateUser').slideUp(); 
             $('##divCreateUser').addclass(style='display:none;');
+            $('#divLogin').slideDown();
+            $('#divLogin').removeClass(style);
         })
 
         $('#btnRegister').on('click',function(){
@@ -178,6 +178,9 @@
                         title: 'Success!',
                         html: 'New User Created'
                         })
+                        sessionStorage.setItem("SimpleSession",obj.SessionID);
+                        $('#divAnimalDashboard').slideDown();
+                        $('#divCreateUser').slideUp();
                     }
                     else if(obj.Error === 'User Not Created'){
                         Swal.fire({
@@ -186,6 +189,7 @@
                             html: 'User Already Exists'
                         })
                     }
+
                 })
             }
             else{
@@ -231,7 +235,7 @@
                     if(obj.SessionID){
                         $('txtLoginEmail').val('');
                         $('txtLoginPassword').val('');
-                        sessionStorage.setItem("SessionID",obj.SessionID);
+                        sessionStorage.setItem("SimpleSession",obj.SessionID);
                         $('#divAnimalDashboard').slideDown();
                         $('#divLogin').slideUp();
                     }
@@ -249,7 +253,7 @@
 
         $('#btnLogout').on('click',function(){
             // Use this click handler to log a user out from the application
-            //let strSessionID = ; // set the value of this variable to the value of your SimpleSession that you have stored
+            let strSessionID = sessionStorage.getItem('SimpleSession'); // set the value of this variable to the value of your SimpleSession that you have stored
             $.ajax({
                 type: "ENTER_YOUR_APPROPRIATE_HTTP_METHOD_HERE",
                 contentType:"application/json; charset=utf-8",
@@ -271,7 +275,7 @@
             // Validate input here
 
             if(blnError == false){
-                //let strSessionID = ; // set the value of this variable to the value of your SimpleSession that you have stored
+                let strSessionID = sessionStorage.getItem('SimpleSession'); // set the value of this variable to the value of your SimpleSession that you have stored
                 $.getJSON('https://simplefarm.thesimplehomestead.com/api/animals.php',{SessionID:strSessionID,AnimalType:strAnimalType},function(animals){
                     // Clear the tbody
 
